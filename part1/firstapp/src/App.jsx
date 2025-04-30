@@ -10,6 +10,19 @@ const Button = ({onClick, text}) => {
   )
 }
 
+const Statistics = (props) => {
+  return (
+    <p>
+    Good ratings: {props.good}<br/>
+    Bad ratings: {props.bad}<br/>
+    Neutral ratings: {props.neutral}<br/>
+    Total ratings: {props.total}<br/>
+    Average: {props.average}<br/>
+    Positive rating %: {props.positive}%
+  </p>
+  )
+}
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [bad, setBad] = useState(0)
@@ -24,14 +37,7 @@ const App = () => {
       <Button onClick = {() => setGood(good + 1)} text = 'good'/>
       <Button onClick = {() => setBad(bad + 1)} text = 'bad'/>
       <Button onClick = {() => setNeutral(neutral + 1)} text = 'neutral'/>
-      <p>
-        Good ratings: {good}<br/>
-        Bad ratings: {bad}<br/>
-        Neutral ratings: {neutral}<br/>
-        Total ratings: {total}<br/>
-        Average: {average}<br/>
-        Positive rating %: {positive}%
-      </p>
+      <Statistics good = {good} bad = {bad} neutral = {neutral} total = {total} average = {average} positive = {positive}/>
     </div>
   )
 }
