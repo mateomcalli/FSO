@@ -18,6 +18,8 @@ const Anecdote = (props) => {
   )
 }
 
+const Header = ({text}) => <h1>{text}</h1>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -33,6 +35,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const [best, setBest] = useState(0)
 
   const switchAnecdote = () => {
     setSelected(getRandomInt(anecdotes.length))
@@ -42,14 +45,22 @@ const App = () => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
+    if (copy[selected] === Math.max(...copy)) {
+      setBest(selected)
+    }
   }
+
   return (
-    <div>
+    <>
+      <Header text = "Anecdote of the day"/>
       <Anecdote selected = {selected} anecdotes = {anecdotes}/>
       <p>has {votes[selected]} votes</p>
       <Button text = "next anecdote" onClick = {switchAnecdote}/>
       <Button text = "vote" onClick = {vote}/>
-    </div>
+      <Header text = "Best anecdote"/>
+      <Anecdote selected = {best} anecdotes = {anecdotes}/>
+      <p>with {votes[best]} votes</p>
+    </>
   )
 }
 
