@@ -1,34 +1,31 @@
 import { useState } from 'react'
 
+const Header = () => <h1>We would appreciate your feedback!</h1>
+
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick = {onClick}>
+      {text}
+    </button>
+  )
+}
+
 const App = () => {
-  const [counter, setCounter] = useState(0)
-  console.log('rendering with counter value', counter)
-
-  const increaseByOne = () => {
-    console.log('increasing, value before', counter)
-    setCounter(counter + 1)
-  }
-
-  const decreaseByOne = () => {
-    console.log('decreasing, value before', counter)
-    setCounter(counter - 1)
-  }
-
-  const setToZero = () => {
-    console.log('resetting to zero, value before', counter)
-    setCounter(0)
-  }
-
-  const Display = ({counter}) => <div>{counter}</div>
-
-  const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
+  const [good, setGood] = useState(0)
+  const [bad, setBad] = useState(0)
+  const [neutral, setNeutral] = useState(0)
 
   return (
     <div>
-      <Display counter={counter}/>
-      <Button onClick={increaseByOne} text='plus'/>
-      <Button onClick={decreaseByOne} text='minus'/>
-      <Button onClick={setToZero} text='reset'/>
+      <Header />
+      <Button onClick = {() => setGood(good + 1)} text = 'good'/>
+      <Button onClick = {() => setBad(bad + 1)} text = 'bad'/>
+      <Button onClick = {() => setNeutral(neutral + 1)} text = 'neutral'/>
+      <p>
+        Good ratings: {good}<br/>
+        Bad ratings: {bad}<br/>
+        Neutral ratings: {neutral}
+      </p>
     </div>
   )
 }
