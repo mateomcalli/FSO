@@ -30,14 +30,29 @@ const App = () => {
   let total = good+bad+neutral
   let average = (good + (-1*bad)) / total
   let positive = (good/total)*100
-
+  const checker = () => {
+    if (total === 0) {
+      return <p>No feedback given.</p>
+    } 
+    return (
+      <Statistics
+        good = {good}
+        bad = {bad}
+        neutral = {neutral}
+        total = {total}
+        average = {average}
+        positive = {positive}
+      />
+    )
+}
+    
   return (
     <div>
       <Header />
       <Button onClick = {() => setGood(good + 1)} text = 'good'/>
       <Button onClick = {() => setBad(bad + 1)} text = 'bad'/>
       <Button onClick = {() => setNeutral(neutral + 1)} text = 'neutral'/>
-      <Statistics good = {good} bad = {bad} neutral = {neutral} total = {total} average = {average} positive = {positive}/>
+      {checker()}
     </div>
   )
 }
