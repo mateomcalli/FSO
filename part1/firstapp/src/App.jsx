@@ -10,16 +10,27 @@ const Button = ({onClick, text}) => {
   )
 }
 
+const StatisticLine = (props) => { // must be enclosed in a table to work
+  return (
+    <tbody>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
+    </tbody>
+  )
+}
+
 const Statistics = (props) => {
   return (
-    <p>
-    Good ratings: {props.good}<br/>
-    Bad ratings: {props.bad}<br/>
-    Neutral ratings: {props.neutral}<br/>
-    Total ratings: {props.total}<br/>
-    Average: {props.average}<br/>
-    Positive rating %: {props.positive}%
-  </p>
+    <table>
+      <StatisticLine text = 'good' value = {props.good}/>
+      <StatisticLine text = 'bad' value = {props.bad}/>
+      <StatisticLine text = 'neutral' value = {props.neutral}/>
+      <StatisticLine text = 'total' value = {props.total}/>
+      <StatisticLine text = 'average' value = {props.average}/>
+      <StatisticLine text = 'positive' value = {props.positive}/>
+    </table>
   )
 }
 
@@ -29,7 +40,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   let total = good+bad+neutral
   let average = (good + (-1*bad)) / total
-  let positive = (good/total)*100
+  let positive = (good/total)*100 + '%'
   const checker = () => {
     if (total === 0) {
       return <p>No feedback given.</p>
