@@ -1,42 +1,45 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import AddNew from './components/AddNew'
+import Display from './components/Display'
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]) 
-  const [newName, setNewName] = useState('')
-
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setNewName(event.target.value)
-  }
+  const [persons, setPersons] = useState([{ name: 'Vicky Molina', number: '305-610-8813', id: 1}]) 
+  const [name, setName] = useState('')
+  const [number, setNumber] = useState('')
+  const [filter, setFilter] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already in the phonebook.`)
+    if (persons.some(person => person.name === name)) {
+      alert(`${name} is already in the phonebook.`)
+    } else if (name === '' || number === '') {
+      alert(`Cannot submit a person without a name and number.`)
     } else {
-      console.log(newName);
       setPersons(persons.concat({
-        name: newName
+        name: name,
+        number: number,
+        id: persons.length + 1
       }))
     }
-    setNewName('')
+    setName('')
+    setNumber('')
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleChange}/>
-        </div>
-        <div>
-          <button type="submit" onClick = {addPerson}>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.map(person =>
-        <div key={person.name}>{person.name}</div>
-      )}
+      <Filter filter = {filter} setFilter = {setFilter}/>
+      <h3>Add a new</h3>
+      <AddNew 
+        name = {name}
+        number = {number} 
+        addPerson = {addPerson} 
+        setName = {setName} 
+        setNumber = {setNumber}
+      />
+      <h3>Numbers</h3>
+      <Display filter = {filter} persons = {persons}/>
     </div>
   )
 }
