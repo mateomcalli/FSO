@@ -1,52 +1,16 @@
-import Course from './components/Course'
+import Note from './components/Note'
 
-const App = () => {
-  const course = [
-    {
-      name: 'Half Stack application development',
-      id: 1,
-      parts: [
-        {
-          lesson: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
-        {
-          lesson: 'Using props to pass data',
-          exercises: 7,   
-          id: 2
-        },
-        {
-          lesson: 'State of a component',
-          exercises: 14,
-          id: 3
-        },
-        {
-          lesson: 'Redux',
-          exercises: 11,
-          id: 4
-        }
-      ]
-    }, 
-    {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          lesson: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          lesson: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
-    }
-  ]
-
-  return <Course course={course} />
+const App = ({ notes }) => {
+  return (
+    <div>
+      <h1>Notes</h1>
+      <ul>
+        {notes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default App
