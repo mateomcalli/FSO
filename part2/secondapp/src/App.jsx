@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import AddNew from './components/AddNew'
 import Display from './components/Display'
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Vicky Molina', number: '305-610-8813', id: 1}]) 
+  const [persons, setPersons] = useState([]) 
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
   const [filter, setFilter] = useState('')
 
+  useEffect(() => {
+    // React effect hook, GETs data from server and
+    // uses it to populate the persons array.
+    axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      console.log(response)
+      setPersons(response.data)
+    })
+  }, [])
+
   const addPerson = (event) => {
+  /* Goes through various checks and adds a person to the 
+     persons array, adding their name, number and id. Also
+     resets the text fields at the end.    
+  */
     event.preventDefault()
     if (persons.some(person => person.name === name)) {
       alert(`${name} is already in the phonebook.`)
