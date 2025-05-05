@@ -25,7 +25,15 @@ const App = () => {
   */
     event.preventDefault()
     if (persons.some(person => person.name === name)) {
-      alert(`${name} is already in the phonebook.`)
+      const existingPerson = persons.find(person => person.name === name)
+
+      if (window.confirm(`${name} is already in the phonebook. Replace the old number?`)) {
+        const updatedPerson = {...existingPerson, number: number}
+        PhonebookData
+        .update(updatedPerson.id, updatedPerson)
+        .then(uP => setPersons(persons.map(person => person.id !== updatedPerson.id ? person : uP)))
+      }
+      
     } else if (name === '' || number === '') {
       alert(`Cannot submit a person without a name and number.`)
     } else {

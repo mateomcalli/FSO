@@ -26,4 +26,11 @@ const remove = (id) => {
   )
 }
 
-export default { get, add, remove }
+const update = (id, newPerson) => {
+  return (
+    axios
+    .put(`http://localhost:3001/persons/${id}`, newPerson)
+    .then(response => response.data)
+  )
+}
+export default { get, add, remove, update }
