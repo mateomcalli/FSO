@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import PhonebookData from './services/PhonebookData'
 import Filter from './components/Filter'
 import AddNew from './components/AddNew'
 import Display from './components/Display'
@@ -13,13 +13,10 @@ const App = () => {
   useEffect(() => {
     // React effect hook, GETs data from server and
     // uses it to populate the persons array.
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log(response)
-      setPersons(response.data)
-    })
-  }, [])
+    PhonebookData
+    .get()
+    .then(initial => setPersons(initial))
+  })
 
   const addPerson = (event) => {
   /* Goes through various checks and adds a person to the 
@@ -32,11 +29,13 @@ const App = () => {
     } else if (name === '' || number === '') {
       alert(`Cannot submit a person without a name and number.`)
     } else {
-      setPersons(persons.concat({
+      const newPerson = {
         name: name,
-        number: number,
-        id: persons.length + 1
-      }))
+        number: number
+      }
+      PhonebookData
+      .add(newPerson)
+      .then(newPerson => setPersons(persons.concat(newPerson)))
     }
     setName('')
     setNumber('')
