@@ -1,4 +1,4 @@
-const Display = ({persons, filter}) => {
+const Display = ({persons, filter, removePerson}) => {
   return (
   /* Compares the inputted name with the filter and only
      displays the names that comply with the filter (by using map)
@@ -9,6 +9,7 @@ const Display = ({persons, filter}) => {
       .map(person => (
         <div key={person.id}>
           {person.name} {person.number}
+          <button type = "button" onClick = {() => removePerson(person.id,person.name)}>delete</button>
         </div>
       ))}
     </div>

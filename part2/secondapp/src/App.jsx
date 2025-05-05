@@ -16,7 +16,7 @@ const App = () => {
     PhonebookData
     .get()
     .then(initial => setPersons(initial))
-  })
+  }, [])
 
   const addPerson = (event) => {
   /* Goes through various checks and adds a person to the 
@@ -41,6 +41,14 @@ const App = () => {
     setNumber('')
   }
 
+  const removePerson = (id,n) => {
+    if (window.confirm(`delete ${n}?`)) {
+      PhonebookData
+      .remove(id)
+      .then(() => setPersons(persons.filter(person => person.id !== id)))
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -54,7 +62,7 @@ const App = () => {
         setNumber = {setNumber}
       />
       <h3>Numbers</h3>
-      <Display filter = {filter} persons = {persons}/>
+      <Display filter = {filter} persons = {persons} removePerson={removePerson}/>
     </div>
   )
 }
