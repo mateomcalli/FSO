@@ -1,6 +1,7 @@
 import Display from './Display'
+import Button from './Button'
 
-const List = ({ country, allCountries }) => {
+const List = ({ country, allCountries, setSelected }) => {
   if (country === null) {
     return null
   }
@@ -16,10 +17,14 @@ const List = ({ country, allCountries }) => {
       <Display country = {matches[0]}/>
     )
   }
+
   return (
     <div>
       {matches.map(match => 
-        <div key = {match.name.common}>{match.name.common}</div>
+        <div key = {match.name.common}>
+          {match.name.common}
+          <Button match = {match} setSelected = {setSelected}/>
+        </div>
       )}
     </div>
   )

@@ -3,10 +3,10 @@ const Display = ({country}) => {
     <div>
       <h1>{country.name.common}</h1>
       <p>Capital country: {country.capital}</p>
-      <p>Area code: {country.area}</p>
+      <p>Area: {country.area}km<sup>2</sup></p>
       <h2>Languages</h2>
-      <div>{Object.values(country.languages).map(lang => <li>{lang}</li>)}</div>
-      <img src = {country.flags.png}></img>
+      <div>{Object.values(country.languages).map(lang => <li key={lang}>{lang}</li>)}</div>
+      <br></br><img src = {country.flags.png}></img>
     </div>
   )
 }
