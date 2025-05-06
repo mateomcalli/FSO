@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Search from './components/Search'
 import List from './components/List'
 import Display from './components/Display'
+import './styles.css'
 
 const App = () => {
   const [country, setCountry] = useState(null)

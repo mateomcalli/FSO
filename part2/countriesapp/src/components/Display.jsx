@@ -6,7 +6,7 @@ const Display = ({country}) => {
       <p>Area: {country.area}km<sup>2</sup></p>
       <h2>Languages</h2>
       <div>{Object.values(country.languages).map(lang => <li key={lang}>{lang}</li>)}</div>
-      <br></br><img src = {country.flags.png}></img>
+      <br></br><img className = "flag" src = {country.flags.png}></img>
     </div>
   )
 }
