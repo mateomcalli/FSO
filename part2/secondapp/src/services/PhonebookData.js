@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const link = 'http://localhost:3001/persons'
+const link = 'http://localhost:3001/api/contacts'
 
 const get = () => {
   return (
