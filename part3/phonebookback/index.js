@@ -1,7 +1,9 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let contacts = [
   { 
@@ -70,7 +72,7 @@ app.post('/api/contacts/', (request, response) => {
   }
 
   const contact = {
-    id: new_id,
+    id: new_id.toString(),
     name: body.name,
     number: body.number
   }
