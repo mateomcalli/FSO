@@ -30,6 +30,13 @@ let contacts = [
   }
 ]
 
+app.get('/', (request, response) => {
+  response.send(`
+    <h1>Phonebook backend root</h1>
+    <p>Use the commands '/api/contacts' or '/api/contacts/id'</p>
+  `)
+})
+
 app.get('/api/contacts', (request, response) => {
   response.json(contacts)
 })
