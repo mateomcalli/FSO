@@ -10,7 +10,7 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('dist'))
 
-app.get('/', (request, response) => {
+app.get('/api', (request, response) => {
   response.send(`
     <h1>Phonebook backend root</h1>
     <p>Use the commands '/api/contacts' or '/api/contacts/id'</p>
@@ -24,52 +24,34 @@ app.get('/api/contacts', (request, response) => {
 })
 
 app.get('/api/contacts/:id', (request, response) => {
-  const id = request.params.id
-  const contact = contacts.find(contact => contact.id === id)
-
-  if (contact) {
-    response.json(contact)
-  } else {
-    response.status(404).end()
-  }
-})
-
-app.get('/info', (request, response) => {
-  const time = new Date()
-  response.send(`
-    <p>Phonebook has info for ${contacts.length} people</p>
-    <p>${time}</p>
-  `)
+  Person.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 })
 
 app.delete('/api/contacts/:id', (request, response) => {
-  const id = request.params.id
-  contacts = contacts.filter(contact => contact.id !== id)
-  response.status(204).end()
+  Person.findByIdAndDelete(request.params.id).then(person => {
+    response.json(`deleted ${person.name}`)
+  })
 })
 
 app.post('/api/contacts/', (request, response) => {
-  const new_id = Math.max(...contacts.map(contact => Number(contact.id))) + 1
   const body = request.body
 
   if (!body.name || !body.number) {
     return response.status(400).json({
       error: 'name or number is miissing'
     })
-  } else if (contacts.some(contact => contact.name.toLowerCase() === body.name.toLowerCase())) {
-    return response.status(400).json({
-      error: 'duplicate entry detected'
-    })
   }
 
-  const contact = {
-    id: new_id.toString(),
+  const contact = new Person({
     name: body.name,
     number: body.number
-  }
+  })
 
-  contacts = contacts.concat(contact)
-  response.json(contact)
+  contact.save().then(savedContact => {
+    response.json(savedContact)
+  })
 })
 
 const PORT = process.env.PORT

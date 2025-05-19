@@ -21,7 +21,7 @@ const add = (newPerson) => {
 const remove = (id) => {
   return (
     axios
-    .delete(`http://localhost:3001/persons/${id}`)
+    .delete(`http://localhost:3001/contacts/${id}`)
     .then(response => response.data)
   )
 }
@@ -29,7 +29,7 @@ const remove = (id) => {
 const update = (id, newPerson) => {
   return (
     axios
-    .put(`http://localhost:3001/persons/${id}`, newPerson)
+    .put(`http://localhost:3001/contacts/${id}`, newPerson)
     .then(response => response.data)
   )
 }
