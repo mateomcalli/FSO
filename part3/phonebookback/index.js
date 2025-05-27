@@ -5,10 +5,11 @@ const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
 
+app.use(express.static('dist'))
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
-app.use(express.static('dist'))
+
 
 app.get('/api', (request, response) => {
   response.send(`
@@ -23,16 +24,27 @@ app.get('/api/contacts', (request, response) => {
   })
 })
 
-app.get('/api/contacts/:id', (request, response) => {
-  Person.findById(request.params.id).then(person => {
-    response.json(person)
+app.get('/api/contacts/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+  .then(person => {
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
   })
+  .catch(error => next(error))
 })
 
-app.delete('/api/contacts/:id', (request, response) => {
+app.delete('/api/contacts/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id).then(person => {
-    response.json(`deleted ${person.name}`)
+    if (person){
+      response.json(`deleted ${person.name}`)
+    } else {
+      response.status(404).send({error: 'id is not valid for a contact'})
+    }
   })
+  .catch(error => next(error))
 })
 
 app.post('/api/contacts/', (request, response) => {
@@ -49,10 +61,23 @@ app.post('/api/contacts/', (request, response) => {
     number: body.number
   })
 
-  contact.save().then(savedContact => {
+  return contact.save().then(savedContact => {
     response.json(savedContact)
   })
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({error: 'unknown endpoint'})
+}
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  if (error.name === 'CastError'){
+    return response.status(400).send({error: 'malformatted id'})
+  }
+  next(error)
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
