@@ -30,7 +30,7 @@ app.get('/api/contacts/:id', (request, response, next) => {
     if (person) {
       response.json(person)
     } else {
-      response.status(404).end()
+      response.status(404).send({error:'id does not match anyone'})
     }
   })
   .catch(error => next(error))
@@ -41,7 +41,7 @@ app.delete('/api/contacts/:id', (request, response, next) => {
     if (person){
       response.json(`deleted ${person.name}`)
     } else {
-      response.status(404).send({error: 'id is not valid for a contact'})
+      response.status(404).send({error: 'id does not match anyone'})
     }
   })
   .catch(error => next(error))
@@ -64,6 +64,24 @@ app.post('/api/contacts/', (request, response) => {
   return contact.save().then(savedContact => {
     response.json(savedContact)
   })
+})
+
+app.put('/api/contacts/:id', (request, response, next) => {
+  const {name, number} = request.body
+
+  Person.findById(request.params.id)
+  .then(person => {
+    if (person){
+      person.name = name
+      person.number = number
+      return person.save().then(updatedPerson => {
+        response.json(updatedPerson)
+      })
+    } else {
+      response.status(404).send({error:'id does not match anyone'})
+    }
+  })
+  .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {

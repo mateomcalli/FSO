@@ -29,7 +29,7 @@ const remove = (id) => {
 const update = (id, newPerson) => {
   return (
     axios
-    .put(`http://localhost:3001/contacts/${id}`, newPerson)
+    .put(`http://localhost:3001/api/contacts/${id}`, newPerson)
     .then(response => response.data)
   )
 }
